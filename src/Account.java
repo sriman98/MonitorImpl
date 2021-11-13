@@ -48,6 +48,7 @@ public class Account
         {
             try
             {
+                System.out.println("Waiting");
                 condition.await();
             }
             catch (InterruptedException e)

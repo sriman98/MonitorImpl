@@ -25,7 +25,7 @@ public class TransactMain {
             public void run() {
                 account.deposit(100);
                 account.withdraw(200,false);
-                account.deposit(100);
+                account.deposit(200);
                 account.withdraw(100,false);
             }
         };
@@ -37,6 +37,8 @@ public class TransactMain {
         t1.start();
         t2.start();
         t3.start();
+
+
 
     }
 }

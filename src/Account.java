@@ -44,31 +44,40 @@ public class Account
         lock.lock();
 
 
-        while (balance < k)
+        if(!isPreferred)
         {
-            try
-            {
-                System.out.println("Waiting");
-                condition.await();
-            }
-            catch (InterruptedException e)
-            {System.out.println("Interrupted");}
+            while(balance<k || preferredWithdraws>0) {
+                while (balance < k) {
+                    try {
+                        System.out.println("Waiting");
+                        condition.await();
+                    } catch (InterruptedException e) {
+                        System.out.println("Interrupted");
+                    }
+                }
+                while (preferredWithdraws > 0) {
+                    try {
+                        condition2.await();
+                    } catch (InterruptedException e) {
+                        System.out.println("Interrupted");
+                    }
+                }
 
-            if(!isPreferred)
-            {
-                while(preferredWithdraws>0)
-                {
-                    try
-                    {condition2.await();}
-                    catch (InterruptedException e)
-                    {System.out.println("Interrupted");}
+            }
+        }
+        else
+        {
+            while (balance < k) {
+                try {
+                    System.out.println("Waiting");
+                    condition.await();
+                } catch (InterruptedException e) {
+                    System.out.println("Interrupted");
                 }
             }
         }
 
         balance-=k;
-
-
 
         System.out.println("Withdraw Successfull, New Balance ="+balance);
 
